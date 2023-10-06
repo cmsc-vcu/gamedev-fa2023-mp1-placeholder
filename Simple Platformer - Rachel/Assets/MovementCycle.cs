@@ -8,15 +8,13 @@ public class MovementCycle : MonoBehaviour
     public Sprite[] sprites;
     private SpriteRenderer body;
     public float maxVelocity = 3.5f;
-    public bool touchingGround;
+    public float speed = 8f;
+    public float thrust = 7f;
+    private bool touchingGround;
 
     private InputActionAsset actions;
     private Transform pos;
     private Rigidbody2D player;
-
-    private float speed = 8f;
-    private float thrust = 7f;
-
     private AudioSource sound;
     //private bool busy;
 
@@ -59,7 +57,7 @@ public class MovementCycle : MonoBehaviour
     //    touchingGround = false;
     //}
 
-    private void Update()
+    private void FixedUpdate()
     {
         Vector2 value = actions.FindAction("Move").ReadValue<Vector2>();
         //do this
@@ -84,18 +82,14 @@ public class MovementCycle : MonoBehaviour
         }
     }
 
-    public void OnUse()
-    {
-        //nothing yet
-    }
-
-    
     public void SetSpriteHand()
     {
+        Debug.Log("Switch player sprite to hand");
         body.sprite = sprites[0];
     }
     public void SetSpriteCursor()
     {
+        Debug.Log("Switch player sprite to cursor");
         body.sprite = sprites[1];
     }
 }

@@ -7,24 +7,29 @@ public class Popup : MonoBehaviour
     public AudioSource popupSound;
     public GameObject window;
     private bool activated;
-    private bool alreadyActivated;
+    private bool firstTime;
     
     // Start is called before the first frame update
     void Start()
     {
         window.SetActive(false);
         activated = false;
-        alreadyActivated = false;
+        firstTime = true;
     }
 
     public void Run(int input)
     {
-        if(input == 4){  activated = true;  }
+        if(input == 4){
+            Debug.Log("Popup is activated");
+            activated = true;
+        }
         else if(input == 3){
+            Debug.Log("Popup deactivated");
             activated = false;
             Go();
         }
         else if(input == 5){
+            Debug.Log("Try to open popup");
             Go();
         }
     }
@@ -34,15 +39,18 @@ public class Popup : MonoBehaviour
     {
         if(activated)
         {
+            Debug.Log("Popup opens; was activated");
             window.SetActive(true);
-            if(!alreadyActivated){
+            if(firstTime){
+                Debug.Log("Popup sound is played");
                 popupSound.Play();
-                alreadyActivated = true;
+                firstTime = false;
             }
         }
         else{
+            Debug.Log("Couldn't open popup; wasn't activated");
             window.SetActive(false);
-            alreadyActivated = false;
+            firstTime = true;
         }
     }
 }

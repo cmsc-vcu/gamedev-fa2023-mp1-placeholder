@@ -15,11 +15,14 @@ public class Collect : MonoBehaviour
         parent.SetActive(true);
     }
 
-    public void Run(int input)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        sound.Play();
-        parent.SetActive(false);
-        icon.SendMessage("GetObj", 0f);
-        nextScript.SendMessage("Run", input);
+        if(other.tag == ("Player")){
+            Debug.Log("Object collected");
+            sound.Play();
+            parent.SetActive(false);
+            icon.SendMessage("Run", 2);
+            nextScript.SendMessage("Run", 2);
+        }
     }
 }

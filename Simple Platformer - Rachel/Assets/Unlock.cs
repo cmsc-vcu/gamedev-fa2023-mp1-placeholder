@@ -7,7 +7,8 @@ public class Unlock : MonoBehaviour
     public GameObject lock_sprite;
     public GameObject unlock_sprite;
     public MonoBehaviour popupScript;
-    public MonoBehaviour keyScript;
+    public MonoBehaviour keyIconScript;
+    public MonoBehaviour proximityAppear;
     private bool keyGot;
     private bool firstTime;
 
@@ -25,48 +26,60 @@ public class Unlock : MonoBehaviour
 
     public void Run(int val)
     {
-        if(val == 0){
-            if(keyGot){
-                StartCoroutine(Un_lock());
-            }
-            else{
+        if(val == -1){
+            if(!keyGot){
+                Debug.Log("Cannot open folder, it is locked");
                 lockedSound.Play();
             }
         }
-        else if(val == 1 && keyGot){
-            lockedSound.Play();
-            Lock();
+        if(val == 0){
+            if(keyGot){
+                Debug.Log("CAN open folder, it is unlocked");
+                StartCoroutine(Un_lock());
+            }
         }
+        //else if(val == 1 && keyGot){
+        //    lockedSound.Play();
+        //    Lock();
+        //}
         else if(val == 2){
             getKey();
         }
     }
 
-    private void getKey(){
+    private void getKey()
+    {
+        Debug.Log("key marked as gotton in folder unlock script");
         keyGot = true;
         popupScript.SendMessage("Run", 4);
+        proximityAppear.SendMessage("Run", 1);
     }
 
     public IEnumerator Un_lock()
     {
         //set correct sprites to be active
+        Debug.Log("change folder sprites, run Un_lock");
         lock_sprite.SetActive(false);
         unlock_sprite.SetActive(true);
         //then play sound after
         if(firstTime){
+            Debug.Log("play unlock sound for first and only time");
             unlockedSound.Play();
-            keyScript.SendMessage("Run", 1);
+            keyIconScript.SendMessage("Run", 1);
             firstTime = false;
         }
-        yield return new WaitForSeconds(1);
+        while(unlockedSound.isPlaying){
+            yield return new WaitForFixedUpdate();
+        }
         popupScript.SendMessage("Run", 5);
     }
 
-    private void Lock()
-    {
-        //set correct sprites
-        lock_sprite.SetActive(true);
-        unlock_sprite.SetActive(false);
-        popupScript.SendMessage("Run", 3);
-    }
+    //private void Lock()
+    //{
+    //    Debug.Log("Lock is locked");
+    //    //set correct sprites
+    //    lock_sprite.SetActive(true);
+    //    unlock_sprite.SetActive(false);
+    //    popupScript.SendMessage("Run", 3);
+    //}
 }

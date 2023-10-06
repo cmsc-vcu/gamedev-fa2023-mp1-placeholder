@@ -32,7 +32,7 @@ public class Unlock : MonoBehaviour
                 lockedSound.Play();
             }
         }
-        if(val == 0){
+        if(val == 10){
             if(keyGot){
                 Debug.Log("CAN open folder, it is unlocked");
                 StartCoroutine(Un_lock());

@@ -10,6 +10,7 @@ public class Proximity : MonoBehaviour
 
     public SpriteRenderer parent;
     public MonoBehaviour runScript;
+    public int inputForScript = 5;
     
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,6 @@ public class Proximity : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == ("Player")){
-            Debug.Log("Enter range of proximity text");
             if(activated)
             {
                 Debug.Log("Proximity text appears; was activated");
@@ -48,7 +48,6 @@ public class Proximity : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if(other.tag == ("Player")){
-            Debug.Log("Left range of proximity text");
             parent.enabled = false;
         }
     }
@@ -60,7 +59,7 @@ public class Proximity : MonoBehaviour
         if(parent.enabled)
         {
             Debug.Log("Proximity text prompt accepted, user pressed \"E\"");
-            runScript.SendMessage("Run", 0f);
+            runScript.SendMessage("Run", inputForScript);
             parent.enabled = false;
             activated = false;
         }

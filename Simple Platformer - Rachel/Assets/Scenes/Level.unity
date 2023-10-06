@@ -4660,6 +4660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 885934838}
   runScript: {fileID: 1749351736}
+  inputForScript: 10
 --- !u!212 &885934838
 SpriteRenderer:
   m_ObjectHideFlags: 0

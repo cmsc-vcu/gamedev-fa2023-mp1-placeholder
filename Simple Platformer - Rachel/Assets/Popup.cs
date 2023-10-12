@@ -32,6 +32,11 @@ public class Popup : MonoBehaviour
             Debug.Log("Try to open popup");
             Go();
         }
+        else if(input == 6){
+            Debug.Log("Activate popup and open it");
+            activated = true;
+            Go();
+        }
     }
 
     //POP UP! ACTIVATE

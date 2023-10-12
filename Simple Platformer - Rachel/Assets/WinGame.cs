@@ -9,14 +9,12 @@ public class WinGame : MonoBehaviour
     public GameObject world;
     public GameObject startMenu;
     public GameObject player;
+    public GameObject fader;
 
     //audio
     private AudioSource inGameMusic;
     private AudioSource winMusic;
     private AudioSource bootUp;
-
-    //fade in
-    public SpriteRenderer fader;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +41,7 @@ public class WinGame : MonoBehaviour
         Debug.Log("booting up sequence...");
         bootUp.Play();
         yield return new WaitForSeconds(2);
-        StartCoroutine(fadeFromBlack(2f));
+        fader.SendMessage("FadeFromBlack", 2.0f);
         while(bootUp.isPlaying){
             yield return new WaitForFixedUpdate();
         }
@@ -52,48 +50,6 @@ public class WinGame : MonoBehaviour
         player.SetActive(true);
         inGameMusic.Play();
         Debug.Log("world / player set to active");
-    }
-
-    //black slowly appears / the black screen fades in
-    public IEnumerator fadeToBlack(float duration)
-    {
-        float counter = 0;
-        //Get current color
-        Color colour = fader.color;
-        //Set to fully transparent
-        fader.color = new Color(colour.r, colour.g, colour.b, 0);
-
-        while(counter < duration)
-        {
-            counter += Time.deltaTime;
-            //Fade in from 0 to 1
-            float alpha = Mathf.Lerp(0, 1, counter / duration);
-            //Change alpha only
-            fader.color = new Color(colour.r, colour.g, colour.b, alpha);
-            //Wait for a frame
-            yield return null;
-        }
-    }
-
-    //black slowly disappears / the black screen fades out
-    public IEnumerator fadeFromBlack(float duration)
-    {
-        float counter = 0;
-        //Get current color
-        Color colour = fader.color;
-        //Set to fully opaque
-        fader.color = new Color(colour.r, colour.g, colour.b, 1);
-
-        while(counter < duration)
-        {
-            counter += Time.deltaTime;
-            //Fade out from 1 to 0
-            float alpha = Mathf.Lerp(1, 0, counter / duration);
-            //Change alpha only
-            fader.color = new Color(colour.r, colour.g, colour.b, alpha);
-            //Wait for a frame
-            yield return null;
-        }
     }
 
     private void Win()

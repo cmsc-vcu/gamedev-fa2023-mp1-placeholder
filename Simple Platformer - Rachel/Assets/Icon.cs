@@ -24,7 +24,9 @@ public class Icon : MonoBehaviour
     public void Run(int input)
     {
         if(input == 0 || input == 2){
-            GetObj();
+            if(!render.enabled){
+                GetObj();
+            }
         }
         else if(input == 1){
             if(numUses > 0){

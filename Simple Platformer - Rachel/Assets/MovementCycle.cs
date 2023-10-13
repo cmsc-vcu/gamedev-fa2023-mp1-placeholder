@@ -47,6 +47,12 @@ public class MovementCycle : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D other){
+        if(other.collider.tag == "Ground" && !touchingGround){
+            touchingGround = true;
+        }
+    }
+
     //public IEnumerator buffer()
     //{
     //    // prevent multiple concurrent routines
@@ -79,6 +85,7 @@ public class MovementCycle : MonoBehaviour
         if(touchingGround){
             sound.Play();
             player.AddForce(pos.up * thrust, ForceMode2D.Impulse);
+            touchingGround = false;
         }
     }
 

@@ -6,7 +6,7 @@ public class SwitchBackground : MonoBehaviour
 {
     //the stuffs
     public List<GameObject> display;
-    private static int backgroundIndex;
+    private int backgroundIndex;
 
     private void Start()
     {
@@ -19,7 +19,8 @@ public class SwitchBackground : MonoBehaviour
 
     public void Run(int side)
     {
-        if(side == 0){
+        Debug.Log("Current bkgrnd is " + backgroundIndex);
+        if(side == 0 || side == -1){
             Previous();
         }
         if(side == 1){
@@ -35,6 +36,7 @@ public class SwitchBackground : MonoBehaviour
         else  
         { backgroundIndex++; }
         display[backgroundIndex].SetActive(true);
+        Debug.Log("Switched to " + backgroundIndex);
     }
 
     public void Previous()
@@ -45,5 +47,6 @@ public class SwitchBackground : MonoBehaviour
         else  
         { backgroundIndex--; }
         display[backgroundIndex].SetActive(true);
+        Debug.Log("Switched to " + backgroundIndex);
     }
 }

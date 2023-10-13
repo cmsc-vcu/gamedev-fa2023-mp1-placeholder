@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Proximity : MonoBehaviour
 {
     private InputActionAsset actions;
-    private bool activated;
+    public bool activated = false;
 
     public SpriteRenderer parent;
     public MonoBehaviour runScript;
@@ -17,7 +17,6 @@ public class Proximity : MonoBehaviour
     {
         actions = GetComponent<PlayerInput>().actions;
         parent.enabled = false;
-        activated = false;
     }
 
     public void Run(int input)

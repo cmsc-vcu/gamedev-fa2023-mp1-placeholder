@@ -4,22 +4,30 @@ using UnityEngine;
 
 public class WinGame : MonoBehaviour
 {
+    //screens
     public GameObject winScreen;
     public GameObject world;
     public GameObject startMenu;
     public GameObject player;
+    public GameObject fader;
 
-    public AudioSource startMusic;
-    public AudioSource winMusic;
-    public AudioSource bootUp;
+    //audio
+    private AudioSource inGameMusic;
+    private AudioSource winMusic;
+    private AudioSource bootUp;
 
     // Start is called before the first frame update
     void Start()
     {
         winScreen.SetActive(false);
         world.SetActive(false);
-        startMenu.SetActive(true);
         player.SetActive(false);
+
+        inGameMusic = GetComponent<AudioSource>();
+        winMusic = winScreen.GetComponent<AudioSource>();
+        bootUp = startMenu.GetComponent<AudioSource>();
+        
+        startMenu.SetActive(true);
         StartCoroutine(StartMenu());
     }
 
@@ -32,14 +40,15 @@ public class WinGame : MonoBehaviour
     {
         Debug.Log("booting up sequence...");
         bootUp.Play();
+        yield return new WaitForSeconds(5);
+        fader.SendMessage("Run", 2);
         while(bootUp.isPlaying){
             yield return new WaitForFixedUpdate();
         }
-        yield return new WaitForSeconds(2);
         startMenu.SetActive(false);
         world.SetActive(true);
         player.SetActive(true);
-        startMusic.Play();
+        inGameMusic.Play();
         Debug.Log("world / player set to active");
     }
 
@@ -49,7 +58,7 @@ public class WinGame : MonoBehaviour
         Debug.Log("winscreen set to active");
         winScreen.SetActive(true);
         world.SetActive(false);
-        startMusic.Stop();
+        inGameMusic.Stop();
         winMusic.Play();
     }
 }

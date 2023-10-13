@@ -40,8 +40,8 @@ public class WinGame : MonoBehaviour
     {
         Debug.Log("booting up sequence...");
         bootUp.Play();
-        yield return new WaitForSeconds(2);
-        fader.SendMessage("FadeFromBlack", 2.0f);
+        yield return new WaitForSeconds(5);
+        fader.SendMessage("Run", 2);
         while(bootUp.isPlaying){
             yield return new WaitForFixedUpdate();
         }

@@ -4,19 +4,43 @@ using UnityEngine;
 
 public class Fade : MonoBehaviour
 {
-    private SpriteRenderer fader;
-    private Color colour;
+    public SpriteRenderer fader1;
+    public SpriteRenderer fader2;
+    private Color colour1;
+    private Color colour2;
+
+    public bool hasSecondFader = false;
+    public float duration = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
-        fader = GetComponent<SpriteRenderer>();
         //Get current color
-        colour = fader.color;    
+        colour1 = fader1.color;
+        if(hasSecondFader){
+            colour2 = fader2.color;
+        }
+    }
+
+    public void Run(int input){
+        //fade in
+        if(input==1){
+            StartCoroutine(FadeToBlack(fader1, colour1, duration));
+            if(hasSecondFader){
+                StartCoroutine(FadeToBlack(fader2, colour2, duration));
+            }
+        }
+        //fade out
+        else{
+            StartCoroutine(FadeFromBlack(fader1, colour1, duration));
+            if(hasSecondFader){
+                StartCoroutine(FadeFromBlack(fader2, colour2, duration));
+            }
+        }
     }
 
     //black slowly appears / the black screen fades in
-    public IEnumerator FadeToBlack(float duration)
+    public IEnumerator FadeToBlack(SpriteRenderer fader, Color colour, float duration)
     {
         float counter = 0;
         //Set to fully transparent
@@ -36,7 +60,7 @@ public class Fade : MonoBehaviour
 
 
     //black slowly disappears / the black screen fades out
-    public IEnumerator FadeFromBlack(float duration)
+    public IEnumerator FadeFromBlack(SpriteRenderer fader, Color colour, float duration)
     {
         float counter = 0;
         //Set to fully opaque

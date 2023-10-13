@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CoinTotal : MonoBehaviour
 {
-    public MonoBehaviour fader;
+    public GameObject fader;
     public GameObject trophy;
     public GameObject bigCoin;
     public List<GameObject> icons;
+    
+    private MonoBehaviour faderScript;
     private int count;
 
     // Start is called before the first frame update
@@ -16,9 +18,12 @@ public class CoinTotal : MonoBehaviour
         count = 0;
         bigCoin.SetActive(false);
         trophy.SetActive(true);
+        fader.SetActive(false);
+        faderScript = fader.GetComponent<MonoBehaviour>();
         
         for(int i=0; i<icons.Count; i++){
             icons[i].SetActive(false);
+            icons[i].GetComponent<Animator>().enabled = false;
         }
     }
 
@@ -26,13 +31,24 @@ public class CoinTotal : MonoBehaviour
     void Run(int input)
     {
         if(input >= 1){
+            (icons[count]).SetActive(true);
             count++;
-            icons[count-1].SetActive(false);
             if(count == icons.Count){
                 trophy.SetActive(false);
                 bigCoin.SetActive(true);
-                fader.SendMessage("FadeToBlack", 2.0f);
+
+                fader.SetActive(true);
+                faderScript.SendMessage("Run", 1);
+                StartCoroutine(rotateOn());
             }
+        }
+    }
+
+    public IEnumerator rotateOn()
+    {
+        for(int i=0; i<icons.Count; i++){
+            icons[i].GetComponent<Animator>().enabled = true;
+            yield return new WaitForSeconds(0.16f);
         }
     }
 }
